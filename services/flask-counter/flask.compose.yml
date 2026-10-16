@@ -1,0 +1,32 @@
+# Compose-файл лежит не в корне и называется нестандартно: платформа
+# найдёт его только по пути services/flask-counter/flask.compose.yml.
+# Все относительные пути ниже считаются от папки этого файла.
+services:
+  # web идёт первым: порты первого сервиса платформа отдаёт наружу
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    env_file:
+      - config/web.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  redis-data:
