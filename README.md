@@ -6,13 +6,13 @@
 
 ## Путь к compose-файлу
 
-Compose-файл лежит не в корне репозитория и называется не `docker-compose.yml` / `compose.yml`:
+Compose-файл лежит не в корне репозитория:
 
 ```
-services/flask-counter/flask.compose.yml
+services/flask-counter/compose.yml
 ```
 
-При создании приложения укажите этот путь в настройках Docker Compose. Без него платформа compose-файл не найдёт.
+При создании приложения укажите этот путь в настройках Docker Compose. Можно указать и папку `services/flask-counter`.
 
 Все относительные пути в compose-файле (`build.context`, `dockerfile`, `env_file`) считаются от папки `services/flask-counter/` и должны оставаться внутри неё.
 
@@ -20,7 +20,7 @@ services/flask-counter/flask.compose.yml
 
 ```
 services/flask-counter/
-├── flask.compose.yml      # web (Flask + gunicorn) и redis
+├── compose.yml            # web (Flask + gunicorn) и redis
 ├── config/web.env         # переменные окружения web
 ├── docker/web.Dockerfile  # образ web, контекст сборки — services/flask-counter
 └── src/
@@ -31,7 +31,7 @@ services/flask-counter/
 ## <a name="dev"></a>Локальный запуск проекта
 
 ```bash
-docker compose -f services/flask-counter/flask.compose.yml up --build
+docker compose -f services/flask-counter/compose.yml up --build
 ```
 
-Приложение откроется на http://localhost:5000, проверка состояния — http://localhost:5000/health.
+Приложение откроется на http://localhost:8000, проверка состояния — http://localhost:8000/health.

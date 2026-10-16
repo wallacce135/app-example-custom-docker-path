@@ -1,5 +1,4 @@
-# Compose-файл лежит не в корне и называется нестандартно: платформа
-# найдёт его только по пути services/flask-counter/flask.compose.yml.
+# Compose-файл лежит не в корне репозитория: services/flask-counter/compose.yml.
 # Все относительные пути ниже считаются от папки этого файла.
 services:
   # web идёт первым: порты первого сервиса платформа отдаёт наружу
@@ -10,7 +9,7 @@ services:
     env_file:
       - config/web.env
     ports:
-      - "5000:5000"
+      - "8000:8000"
     depends_on:
       redis:
         condition: service_healthy
